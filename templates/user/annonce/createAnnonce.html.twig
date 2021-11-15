@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création Annonnce{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mt-3">Créer votre annonce</h1>
+    <hr class="w-50 mx-auto mt-3 bg-danger">
+    <p class="text-center mt-3">Création de votre annonce pour vendre votre bien. Vous pouvez à tous moment modifier votre annonce et si vous avez vendu l'article. Vous devez supprimer l'annonce.</p>
+
+    
+    <div class="w-75 mx-auto mt-5 p-2 border border-info rounded">
+        {{ form(form) }}
+    </div>
+</div>
+{% endblock %}

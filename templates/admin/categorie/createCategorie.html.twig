@@ -1,0 +1,23 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Create categorie{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="display-4 text-center">Création d'une catégorie :</h1>
+    <hr class="w-25 mx-auto bg-danger mt-3">
+    <p class="text-center">Créer une nouvelle catégorie pour les annonces.</p>
+    <p><a class="btn btn-outline-primary" href="{{ path('admin_dashboard') }}">Retour</a></p>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show w-25 mx-auto" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="w-50 mx-auto mt-5 p-2 border border-info rounded">
+       {{form(form)}} 
+    </div>
+    
+</div>
+{% endblock %}

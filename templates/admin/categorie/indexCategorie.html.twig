@@ -1,0 +1,103 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Categorie{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="display-4 text-center">Gestion des catégories :</h1>
+    <hr class="w-25 mx-auto bg-danger mt-3">
+    <p><a class="btn btn-outline-primary" href="{{ path('admin_dashboard') }}">Retour</a></p>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show w-25 mx-auto" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>toutes les catégories :</h3>
+            <table class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>libelle url</th>
+                        <th>categorie parent</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for categorie in categories %}
+                    <tr>
+                        <td>{{categorie.id}}</td>
+                        <td>{{categorie.name}}</td>
+                        <td>{{categorie.slug}}</td>
+                        <td>{{categorie.parent}}</td>
+                        <td>
+                            <a href="{{ path('admin_categorie_edit', {'id': categorie.id}) }}" class="text-secondary p-2" data-toggle="tooltip4" title="Editer"><i class="far fa-edit fa-lg"></i></a>
+                            <a onclick="javascript:
+                                    swal({
+                                        title: 'supprimer ?',
+                                        text: 'Voulez-vous supprimer la catégorie {{categorie.name}} ?',
+                                        type: 'question',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Oui',
+                                        confirmButtonColor: '#0275d8',
+                                        cancelButtonText: 'Non',
+                                        cancelButtonColor: '#d9534f',
+                                    })
+                                    .then((willDelete) => {
+                                        window.location.href = '{{ path('user_annonce_delete', {id: categorie.id}) }}';});" class="text-danger">
+												<i class="fas fa-trash-alt fa-lg" data-toggle="tooltip4" title="Supprimer"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}    
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h3>Catégories Parent :</h3>
+            <table class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>categorie parent</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for categorie in categories %}
+                    <tr>
+                    {% if categorie.parent != null %}
+                        <td>{{categorie.id}}</td>
+                        <td>{{categorie.parent}}</td>
+                        
+                        <td>
+                            <a href="{{ path('admin_categorie_edit', {'id': categorie.id}) }}" class="text-secondary p-2" data-toggle="tooltip4" title="Editer"><i class="far fa-edit fa-lg"></i></a>
+                            <a onclick="javascript:
+                                            swal({
+                                                title: 'supprimer ?',
+                                                text: 'Voulez-vous supprimer la catégorie {{categorie.name}} ?',
+                                                type: 'question',
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Oui',
+                                                confirmButtonColor: '#0275d8',
+                                                cancelButtonText: 'Non',
+                                                cancelButtonColor: '#d9534f',
+                                            })
+                                        .then((willDelete) => {
+                                            window.location.href = '{{ path('user_annonce_delete', {id: categorie.id}) }}';});" class="text-danger">
+                                                        <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip4" title="Supprimer"></i>
+                            </a>
+                        </td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

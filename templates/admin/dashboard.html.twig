@@ -1,0 +1,114 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h1 class="text-center mt-5">Administration du site :</h1>
+    <hr class="w-50 mx-auto bg-danger mb-5">
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show w-25 mx-auto" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    {# blocs des differents pages pour la gestion du site #}
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-3">
+        <div class="col-md-4">
+            <div class="p-3 border-start border-danger border-5 rounded shadow p-3 mb-5 rounded" style="background:#4b5e65;">
+                <p class="text-center font-weight-bold text-light">Utilisateur :</p>
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{user.id}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.firstname}}</td>
+                            <td>{{user.email}}</td>
+                        </tr>
+                    {% endfor %}    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 border-start border-success border-5 rounded shadow p-3 mb-5 rounded" style="background:#4b5e65;">
+                <p class="text-center font-weight-bold text-light">Categories :</p>
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>nom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for categorie in categories %}
+                        <tr>
+                            <td>{{categorie.id}}</td>
+                            <td>{{categorie.name}}</td>
+                        </tr>
+                    {% endfor %}    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 border-start border-warning border-5 rounded shadow p-3 mb-5 rounded" style="background:#4b5e65;">
+                <p class="text-center font-weight-bold text-light">Annonces :</p>
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titre</th>
+                            <th>date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for annonce in annonces %}
+                        <tr>
+                            <td>{{annonce.id}}</td>
+                            <td>{{annonce.title}}</td>
+                            {#<td>{{annonce.content | raw  }}</td>#}
+                            <td>{{annonce.createdAt | date("d/m/Y")}}</td>
+                        </tr>
+                    {% endfor %}    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+           
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+                <div class="col">
+                <div class="p-3 border bg-light">Row column</div>
+                </div>
+        
+    </div>
+</div>
+{% endblock %}

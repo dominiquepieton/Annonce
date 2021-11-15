@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile {% endblock %}
+
+{% block body %}
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+    <div class="w-75 mx-auto">
+        <h1 class="mt-3">Mon profil :</h1>
+        <div class="card mt-5">
+            <div class="card-body bg-info">
+                <p>{{ app.user.name }}</p>
+                <p>{{ app.user.firstname }}</p>
+                <p>{{ app.user.email }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-50 mx-auto mt-5">
+        <p class="text-center"><a href="{{ path('user_edit_profile') }}" class="btn btn-outline-info">Modif. profil</a>
+        <a href="{{ path('user_edit_password') }}" class="btn btn-outline-info">Modif. password</a></p>
+    </div>
+    <div class="w-75 mx-auto">
+        <h1 class="mt-3">Mes annonces : nb ({{ app.user.annonces | length }})</h1>
+
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set i = 0 %}
+                {% for annonce in app.user.annonces %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ annonce.title }}</td>
+                    <td>
+                    <a href="{{ path('user_edit_annonce', {'id' : annonce.id}) }}" class="text-primary"><i class="fas fa-edit fa-x2"></i></a>
+                    <a onclick="javascript:
+                                    swal({
+                                        title: 'supprimer ?',
+                                        text: 'Voulez-vous supprimer cette annonce : {{annonce.title}} ?',
+                                        type: 'question',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Oui',
+                                        confirmButtonColor: '#0275d8',
+                                        cancelButtonText: 'Non',
+                                        cancelButtonColor: '#d9534f',
+                                    })
+                                .then((willDelete) => {
+                                    window.location.href = '{{ path('user_annonce_delete', {id: annonce.id}) }}';});" class="text-danger">
+												<i class="fas fa-trash-alt fa-lg" data-toggle="tooltip4" title="Supprimer"></i>
+                    </a>
+                    
+                    </td>
+                </tr>
+                {% set i = i+1 %}
+                {% endfor %}
+            </tbody>
+        </table>    
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification Annonnce{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mt-3">Modifier l'annonce</h1>
+    <hr class="w-50 mx-auto mt-3 bg-danger">
+    <p class="text-center mt-3"><a class="btn btn-outline-primary" href="{{ path('admin_annonce') }}">Retour</a></p>
+
+    
+    <div class="w-75 mx-auto mt-5 p-2 border border-info rounded">
+        {{ form(form) }}
+    </div>
+</div>
+{% endblock %}
