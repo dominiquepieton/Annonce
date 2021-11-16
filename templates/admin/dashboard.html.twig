@@ -86,28 +86,36 @@
                 </table>
             </div>
         </div>
-           
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
-                <div class="col">
-                <div class="p-3 border bg-light">Row column</div>
-                </div>
+    </div>
+    <div class="row">   
+        <div class="col-md-6">
+            <div class="p-3 border-start border-info border-5 rounded shadow p-3 mb-5 rounded" style="background:#4b5e65;">
+            <p class="text-center font-weight-bold text-light">Message reçu :</p>
+            <table class="table table-striped table-light">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td>{{contact.id}}</td>
+                    <td>{{contact.name}}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.content |striptags|slice(0, 100) }}</td>
+                    <td>{{ contact.createdAt | date("d/m/Y")}}</td>
+                </tr>
+            {% endfor %}    
+            </tbody>
+            </table>
+            </div>
+       </div> 
+                
         
     </div>
 </div>

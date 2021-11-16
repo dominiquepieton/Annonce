@@ -1,0 +1,69 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-5">
+    <h1 class="display-4 text-center">Gestion des Annonces :</h1>
+    <hr class="w-25 mx-auto bg-danger mt-3">
+    <p class="text-center"><a class="btn btn-outline-primary" href="{{ path('admin_dashboard') }}">Retour</a></p>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show w-25 mx-auto" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <table class="table table-striped table-light">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Message</th>
+                <th>Email</th>
+                <th>Créer le :</th>
+                <th>Répondu</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{contact.id}}</td>
+                <td>{{contact.name}}</td>
+                <td>{{contact.firstname}}</td>
+                <td>{{contact.content |striptags|slice(0, 100)}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.createdAt | date('d-m-Y')}}</td>
+                {% if contact.validate == 1 %}
+                    <td class="text-success"><i class="fas fa-check fa-2x"></i></td>
+                {% else %}
+                    <td class="text-danger"><i class="fas fa-check fa-2x"></i></td>
+                {% endif %}    
+                <td>
+                    <a href="{{ path('admin_contact_send', {id: contact.id}) }}" class="btn btn-primary">repondre</a>
+                    <a href="" class="text-secondary p-2" data-toggle="tooltip4" title="Editer"><i class="far fa-edit fa-lg"></i></a>
+                    <a onclick="javascript:
+                                    swal({
+                                        title: 'supprimer ?',
+                                        text: 'Voulez-vous supprimer ce message ?',
+                                        type: 'question',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Oui',
+                                        confirmButtonColor: '#0275d8',
+                                        cancelButtonText: 'Non',
+                                        cancelButtonColor: '#d9534f',
+                                    })
+                                .then((willDelete) => {
+                                    window.location.href = '';});" class="text-danger">
+												<i class="fas fa-trash-alt fa-lg" data-toggle="tooltip4" title="Supprimer"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}    
+        </tbody>
+    </table>
+</div>
+{% endblock %}

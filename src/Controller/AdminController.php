@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Contact;
 use App\Entity\Categorie;
 use App\Form\AnnonceType;
 use App\Form\CategorieType;
 use App\Repository\UserRepository;
 use App\Repository\AnnonceRepository;
+use App\Repository\ContactRepository;
 use App\Repository\CategorieRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,17 +29,19 @@ class AdminController extends AbstractController
      * permet afficher les données du site de façon globale
      * @Route("/dashboard", name="dashboard")
      */
-    public function index(UserRepository $userRepo, AnnonceRepository $annonceRepo, CategorieRepository $categorieRepo): Response
+    public function index(UserRepository $userRepo, AnnonceRepository $annonceRepo, CategorieRepository $categorieRepo, ContactRepository $contactRepo): Response
     {
         
         $users = $userRepo->findAll();
         $annonces = $annonceRepo->findAll();
         $categories = $categorieRepo->findAll();
-        
+        $contacts = $contactRepo->findAll();
+         
         return $this->render('admin/dashboard.html.twig', [
             'users' => $users,
             'annonces' => $annonces,
-            'categories' => $categories
+            'categories' => $categories,
+            'contacts' => $contacts
         ]);
     }
 
@@ -232,5 +236,53 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('admin_annonce'); 
         }   
+    }
+
+    /**
+     * Permet de visualiser tous les message reçu
+     *
+     * @Route("/contact", name="contact")
+     * @param ContactRepository $contactRepository
+     * @return void
+     */
+    public function allContact(ContactRepository $contactRepository)
+    {
+        $contacts = $contactRepository->findAll();
+         
+        return $this->render('admin/contact/index.html.twig', ['contacts' => $contacts]);
+    }
+
+
+    /**
+     * Permet d'envoyer un mail pour la reponse au message
+     * 
+     * @Route("/contact/{id}", name="contact_send")
+     * @param [type] $id
+     * @param Contact $contact
+     * @return void
+     */
+    public function sendContact($id, Contact $contact)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if($contact->getValidate() == false){
+            $contact->setValidate(1);
+
+            $entityManager->persist($contact);
+            $entityManager->flush();
+
+            //$this->addFlash('success', "L'annonce est maintenant publié...");
+
+            return $this->redirectToRoute('admin_contact');
+
+        }else{
+            $contact->setValidate(0);
+
+            $entityManager->persist($contact);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_contact');
+        }
+
+        
     }
 }
