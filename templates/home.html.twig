@@ -44,7 +44,11 @@
                     <h5 class="card-title">{{ console.title }}</h5>
                     <p class="card-text">{{console.content |striptags|slice(0, 100)}}</p>
                     <p class="card-text">Le : {{console.createdAt |date('d-m-Y')}}</p>
-                    <a href="#" class="btn btn-primary">Savoir plus</a>
+                    {% if app.user %}
+                        <a href="{{ path('user_annonce_read', {slug: console.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% else %}
+                        <a href="{{ path('annonce_read', {slug: console.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -108,10 +108,10 @@ class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             // nom du fichier
-            $brochureFile = $form->get('upload_file')->getData();
-            if($brochureFile) {
-                $brochureFileName = $fileUploader->upload($brochureFile);
-                $annonce->setFileName($brochureFileName);
+            $file = $form->get('upload_file')->getData();
+            if($file) {
+                $fileName = $fileUploader->upload($file);
+                $annonce->setFileName($fileName);
             }
             // nom utilisateur connecté
             $annonce->setUser($this->getUser());
@@ -134,14 +134,31 @@ class UserController extends AbstractController
 
 
     /**
+     * Permet de voir l'annonce
+     *
+     * @Route("/annonce/{slug}", name="annonce_read")
+     * @param AnnonceRepository $annonceRepository
+     * @return void
+     */
+    public function readAnnonce($slug, AnnonceRepository $annonceRepository)
+    {
+        $ad = $annonceRepository->findBy(['slug' => $slug]);
+
+
+        return $this->render('user/annonce/readAnnonce.html.twig', ['ad' => $ad]);
+    }
+
+
+
+
+    /**
      * Permet d'editer une annonce
      * @Route("/annonce/edit/{id}", name="edit_annonce")
      *
      */
     public function editAnnonce($id, Request $request, AnnonceRepository $annonceRepo)
     {
-        //$user = $this->getUser();
-        //dd($user);
+        
         $annonce = $annonceRepo->find($id);
         
         $form = $this->createForm(AnnonceType::class, $annonce);
