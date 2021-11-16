@@ -37,8 +37,8 @@ Cela permet de séparer la gestion du traitement d'upload de fichier dans le con
             ])
             
     * Utilisation dans le controleur :
-    Après avoir vérifié le formulaire, il faut vérifier si on a une valeur dans le champ 'upload_file' et si c'est le cas 
-    nous pourrons faire le traitement suivant:
+    Après avoir vérifié le formulaire, il faut vérifier si on a une valeur dans le champ 'upload_file' et si c'est le cas. 
+    Nous pourrons faire le traitement suivant:
     
     public function createAnnonce(Request $request, FileUploader $fileUploader): Response
     {
@@ -50,7 +50,7 @@ Cela permet de séparer la gestion du traitement d'upload de fichier dans le con
             // Vérification de la donnée si vide ou pas
             if($file) { 
                 $fileName = $fileUploader->upload($file); // Traitement du transfert du fichier dans le dossier uploads
-                $annonce->setFileName($fileName); // Ajout de la valeur grace au setter de l'entité avant de le persister
+                $annonce->setFileName($fileName); // Ajout de la valeur grâce au setter de l'entité avant de le persister
             }
         //............... Partie du traitement persister les données et envois à la base de données puis redirection
 
