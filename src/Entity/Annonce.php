@@ -57,6 +57,11 @@ class Annonce
      */
     private $categorie;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $fileName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,5 +140,17 @@ class Annonce
     public function __toString()
     {
         return $this->user;
+    }
+
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        
+        return $this;
     }
 }

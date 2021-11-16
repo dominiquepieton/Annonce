@@ -18,7 +18,7 @@ class HomeController extends AbstractController
         $annonce = $annonceRepo->findBy(['categorie' => 2]);
         $vehicules = $annonceRepo->findBy(['categorie' => 3]);
 
-        //dd(vehicules);
+        
 
         return $this->render('home.html.twig', ['annonce' => $annonce, 'vehicules' => $vehicules]);
     }

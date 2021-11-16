@@ -35,9 +35,11 @@
     <h2 class="mt-5 mb-3">Multimédia :</h2>
     <div class="row">
     {% for console in annonce %}
-        <div class="col-md-3 mr-3">
-            <div class="card" style="width: 18rem;">
-                {#<img class="card-img-top" src="..." alt="Card image cap">#}
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                {% if console.fileName %}
+                    <img class="card-img-top" src="{{ asset('uploads/' ~ console.fileName) }}" alt="Card image cap">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ console.title }}</h5>
                     <p class="card-text">{{console.content |striptags|slice(0, 100)}}</p>
@@ -53,7 +55,7 @@
     <div class="row">
     {% for vehicule in vehicules %}
         <div class="col-md-3 mr-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 10rem;">
                 {#<img class="card-img-top" src="..." alt="Card image cap">#}
                 <div class="card-body">
                     <h5 class="card-title">{{ vehicule.title }}</h5>

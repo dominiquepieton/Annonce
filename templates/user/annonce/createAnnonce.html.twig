@@ -10,7 +10,9 @@
 
     
     <div class="w-75 mx-auto mt-5 p-2 border border-info rounded">
-        {{ form(form) }}
+        {{ form_start(form, { attr: { 'accept-charset' : 'utf-8' }}) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
     </div>
 </div>
 {% endblock %}

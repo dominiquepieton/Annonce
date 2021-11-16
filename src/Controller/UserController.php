@@ -6,6 +6,7 @@ use App\Entity\Annonce;
 use App\Form\AnnonceType;
 use App\Form\EditProfileType;
 use App\Repository\AnnonceRepository;
+use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -98,7 +99,7 @@ class UserController extends AbstractController
      * Création d'une annonce
      * @Route("/annonce/create", name="annonce_create")
      */
-    public function createAnnonce(Request $request): Response
+    public function createAnnonce(Request $request, FileUploader $fileUploader): Response
     {
         $annonce = new Annonce();
 
@@ -106,7 +107,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+            // nom du fichier
+            $brochureFile = $form->get('upload_file')->getData();
+            if($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $annonce->setFileName($brochureFileName);
+            }
             // nom utilisateur connecté
             $annonce->setUser($this->getUser());
             // On met le boolean à false par défaut
