@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Mail;
+use App\Form\MailType;
 use App\Entity\Annonce;
 use App\Entity\Contact;
+use App\Form\EmailType;
 use App\Entity\Categorie;
 use App\Form\AnnonceType;
 use App\Form\CategorieType;
@@ -208,7 +211,7 @@ class AdminController extends AbstractController
 
 
     /**
-     * Permet la suppression d'une annonce
+     * Permet la validation d'une annonce
      * @Route("/annonce/validate/{id}", name="annonce_validate")
      * @param Annonce $annonce
      * @return void
@@ -261,10 +264,15 @@ class AdminController extends AbstractController
      * @param Contact $contact
      * @return void
      */
-    public function sendContact($id, Contact $contact)
+    public function sendContact($id, ContactRepository $contactRepository, Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        if($contact->getValidate() == false){
+        //$entityManager = $this->getDoctrine()->getManager();
+        $email = new Mail();
+        $contacts = $contactRepository->findBy(['id' => $id]);
+        $form = $this->createForm(MailType::class, $email );
+        $form->handleRequest($request);
+
+        /*if($contact->getValidate() == false){
             $contact->setValidate(1);
 
             $entityManager->persist($contact);
@@ -281,8 +289,11 @@ class AdminController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_contact');
-        }
+        }*/
 
-        
+        return $this->render('admin/emails/createMail.html.twig', [
+            'form' => $form->createView(),
+            'contacts' => $contacts
+        ]);
     }
 }

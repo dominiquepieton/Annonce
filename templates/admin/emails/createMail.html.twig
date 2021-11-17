@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mail{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mt-3">Envoyer un mail :</h1>
+    <hr class="w-50 mx-auto mt-3 bg-danger">
+    <p class="text-center mt-3"><a class="btn btn-outline-primary" href="{{ path('admin_annonce') }}">Retour</a></p>
+
+    <div class="row">
+        <div class="col-6">
+            {% for contact in contacts %}
+            <div class="w-75 mx-auto mt-5 p-2 border border-info rounded">
+                <ul class="list-unstyle">
+                    <li>nom : {{contact.name}}<li>
+                    <li>prenom : {{contact.firstname}}<li>
+                    <li>email : {{contact.email}}<li>
+                    <li>message : {{contact.content | raw}}<li>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-6">
+            <div class="w-75 mx-auto mt-5 p-2 border border-info rounded">
+                {{ form(form) }}
+            </div>
+        </div>    
+    </div>
+</div>
+{% endblock %}
