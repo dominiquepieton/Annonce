@@ -6,7 +6,6 @@ use App\Entity\Mail;
 use App\Form\MailType;
 use App\Entity\Annonce;
 use App\Entity\Contact;
-use App\Form\EmailType;
 use App\Entity\Categorie;
 use App\Form\AnnonceType;
 use App\Form\CategorieType;
@@ -241,6 +240,7 @@ class AdminController extends AbstractController
         }   
     }
 
+
     /**
      * Permet de visualiser tous les message reçu
      *
@@ -264,36 +264,71 @@ class AdminController extends AbstractController
      * @param Contact $contact
      * @return void
      */
-    public function sendContact($id, ContactRepository $contactRepository, Request $request)
+    public function sendContact($id, Contact $contact, ContactRepository $contactRepository, Request $request, \Swift_Mailer $mailer)
     {
-        //$entityManager = $this->getDoctrine()->getManager();
-        $email = new Mail();
+        $entityManager = $this->getDoctrine()->getManager();
+        $mail = new Mail();
         $contacts = $contactRepository->findBy(['id' => $id]);
-        $form = $this->createForm(MailType::class, $email );
+
+        $form = $this->createForm(MailType::class, $mail );
         $form->handleRequest($request);
 
-        /*if($contact->getValidate() == false){
-            $contact->setValidate(1);
+        if($form->isSubmitted() && $form->isValid()){
+            $email = $form->getData();
+            
+            // creation du mail
+            $message = (new \Swift_Message($email->getTitle()))
+                ->setFrom('contact@entrainement.test')
+                ->setTo($email->getEmailContact())
+                ->setBody(
+                    $this->renderView(
+                    'admin/emails/contact.html.twig', ['email' => $email]
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
 
-            $entityManager->persist($contact);
+            // gestion pour mettre la validate à true
+            if($contact->getValidate() == false){
+                $contact->setValidate(1);
+    
+                $entityManager->persist($contact);
+                $entityManager->flush();
+            }
+
+            $entityManager->persist($mail);
             $entityManager->flush();
 
-            //$this->addFlash('success', "L'annonce est maintenant publié...");
+            $this->addFlash('success', 'Votre email a bien été envoyé....');
 
             return $this->redirectToRoute('admin_contact');
-
-        }else{
-            $contact->setValidate(0);
-
-            $entityManager->persist($contact);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_contact');
-        }*/
+        }
 
         return $this->render('admin/emails/createMail.html.twig', [
             'form' => $form->createView(),
             'contacts' => $contacts
         ]);
     }
+
+    /**
+     * Permet la suppression d'un message
+     *
+     * @Route("/contact/delete/{id}", name="contact_delete")
+     * @param Contact $contact
+     * @return void
+     */
+    public function deleteContact(Contact $contact)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($contact);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_contact');
+    }
+
+
+
+    
 }
