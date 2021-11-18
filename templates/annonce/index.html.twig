@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+<div class="w-75 mx-auto">
+    <div class="row">
+        <div class="col-md-12">
+            <p>Catégorie parent :</p>
+            {% for categorie in categories %}
+                {{ categorie.parent }}
+            {% endfor %}   
+            <p>Sous-catégorie :</p>
+            {% for categorie in categories %}
+                {{ categorie.name }}
+            {% endfor %}
+        </div>
+        <div class=""></div>
+        <div class=""></div>
+    </div>
+</div>
+{% endblock %}

@@ -31,17 +31,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{path('home')}}">Home</a>
                     </li>
-                    {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
-                    <li class="nav-item">
+                {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="nav-link" href="{{ path('user_profile') }}">Mon profile</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('user_annonce_create') }}">Créer une Annonce</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </div>
                     </li>
                     {% else %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">Annonces</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
                     </li>
