@@ -21,17 +21,5 @@ class HomeController extends AbstractController
     }
 
 
-    /**
-     * Permet de voir l'annonce
-     *
-     * @Route("/annonce/{slug}", name="annonce_read")
-     * @param AnnonceRepository $annonceRepository
-     * @return void
-     */
-    public function readAnnonce($slug, AnnonceRepository $annonceRepository)
-    {
-        $ad = $annonceRepository->findBy(['slug' => $slug]);
-
-        return $this->render('annonce/readAnnonce.html.twig', ['ad' => $ad]);
-    }
+    
 }

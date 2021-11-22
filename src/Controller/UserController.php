@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Mail;
 use App\Form\AnnonceType;
 use App\Form\EditProfileType;
+use App\Form\MailType;
 use App\Repository\AnnonceRepository;
 use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
@@ -199,4 +201,48 @@ class UserController extends AbstractController
     }
 
     
+    /**
+     * Permet de contacter un vendeur si on est connecté
+     *
+     * @Route("/annonce/mail/{id}", name="annonce_mail")
+     * @return void
+     */
+    public function ContactVendeur($id,Annonce $annonce, Request $request, \Swift_Mailer $mailer)
+    {
+        $annonces = $annonce;
+        $email = new Mail();
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(MailType::class, $email);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $emailAnnonce = $form->getData();
+
+            //Creation du mail
+            $message = (new \Swift_Message($emailAnnonce->getTitle()))
+                ->setFrom($email->getEmailExpediteur())
+                ->setTo($email->getEmailContact())
+                ->setBody(
+                    $this->renderView(
+                        'admin/emails/annonceContact.html.twig', ['emailAnnonce' => $emailAnnonce]
+                    ),
+                    'text/html'
+                )
+            ;
+            
+            $mailer->send($message);
+            $entityManager->persist($email);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre email a bien été envoyé....');
+            
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/annonce/contact.html.twig', [
+            'annonces' => $annonces,
+            'form' => $form->createView()
+        ]);
+    }
 }

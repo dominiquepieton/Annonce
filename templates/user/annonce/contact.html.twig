@@ -4,7 +4,31 @@
 
 {% block body %}
 
-{% for annonce in ad %}
+
+
+<div class="container">
+    <div>
+       <h5>{{annonces.title}}</h5>
+        <hr class="w-50 bg-danger">
+        <p>{{ annonces.content | raw }}</p>
+        <p>{{annonces.user.email}}</p>
+    </div>
+
+    <div>
+        <h4>Contactez le vendeur :</h4>
+        <div class="w-75">
+            {{ form(form) }}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{#{% for annonce in ad %}
 <div class="container mt-5">
     <h1 class="text-center mt-3">{{annonce.title}}</h1>
     <hr class="w-50 mx-auto mt-3 bg-danger">
@@ -21,11 +45,9 @@
             <hr class="w-25 bg-danger mx-auto">
             <p><strong>Description : </strong>
             <p class="card-text">{{ annonce.content | raw }}</p>
-            {% if app.user %}
-                <a href="#" class="btn btn-primary">Contacter le vendeur</a>
-            {% endif %}
+            <a href="#" class="btn btn-primary">Contacter le vendeur</a>
         </div>
     </div>    
 </div>
-{% endfor %}
+{% endfor %}#}
 {% endblock %}
