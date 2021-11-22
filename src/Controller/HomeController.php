@@ -14,7 +14,7 @@ class HomeController extends AbstractController
      */
     public function index(AnnonceRepository $annonceRepo): Response
     { 
-        $annonce = $annonceRepo->findBy(['categorie' => 2]);
+        $annonce = $annonceRepo->findBy(['categorie' => 39]);
         $vehicules = $annonceRepo->findBy(['categorie' => 3]);
 
         return $this->render('home.html.twig', ['annonce' => $annonce, 'vehicules' => $vehicules]);

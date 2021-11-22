@@ -12,7 +12,7 @@
     <div class="card">
     {% if annonce.fileName %}
         <div class="card-header">
-            <img class="card-img-top" src="{{ asset('uploads/' ~ annonce.fileName) }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ annonce.fileName }}" alt="Card image cap">
         </div>
     {% endif %}    
         <div class="card-body">
