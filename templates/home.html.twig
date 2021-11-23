@@ -31,8 +31,8 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Contactez-nous</a>
         </p>
     </div>
-
-    <h2 class="mt-5 mb-3">Multimédia :</h2>
+    
+    <h2 class="mt-5 mb-3">Console :</h2>
     <div class="row">
     {% for console in annonce %}
         <div class="col-md-3">
@@ -58,18 +58,65 @@
     <h2 class="mt-5 mb-3">Véhicules :</h2>
     <div class="row">
     {% for vehicule in vehicules %}
-        <div class="col-md-3 mr-3">
-            <div class="card" style="width: 10rem;">
-                {#<img class="card-img-top" src="..." alt="Card image cap">#}
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                 <img class="card-img-top" src="{{ vehicule.fileName }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{ vehicule.title }}</h5>
                     <p class="card-text">{{vehicule.content |striptags|slice(0, 100)}}</p>
                     <p class="card-text">Le : {{vehicule.createdAt |date('d-m-Y')}}</p>
-                    <a href="#" class="btn btn-primary">Savoir plus</a>
+                    {% if app.user %}
+                        <a href="{{ path('user_annonce_read', {slug: vehicule.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% else %}
+                        <a href="{{ path('annonce_read', {slug: vehicule.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     {% endfor %}
     </div>
+
+    <h2 class="mt-5 mb-3">Immobilier :</h2>
+    <div class="row">
+    {% for immo in immobiliers %}
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                 <img class="card-img-top" src="{{ immo.fileName }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ immo.title }}</h5>
+                    <p class="card-text">{{immo.content |striptags|slice(0, 100)}}</p>
+                    <p class="card-text">Le : {{immo.createdAt |date('d-m-Y')}}</p>
+                    {% if app.user %}
+                        <a href="{{ path('user_annonce_read', {slug: immo.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% else %}
+                        <a href="{{ path('annonce_read', {slug: immo.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <h2 class="mt-5 mb-3">Outillage :</h2>
+    <div class="row">
+    {% for outil in outillages %}
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                 <img class="card-img-top" src="{{ outil.fileName }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ outil.title }}</h5>
+                    <p class="card-text">{{outil.content |striptags|slice(0, 100)}}</p>
+                    <p class="card-text">Le : {{outil.createdAt |date('d-m-Y')}}</p>
+                    {% if app.user %}
+                        <a href="{{ path('user_annonce_read', {slug: outil.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% else %}
+                        <a href="{{ path('annonce_read', {slug: outil.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    
 </div>
 {% endblock %}

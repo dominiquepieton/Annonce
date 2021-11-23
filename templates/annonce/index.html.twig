@@ -3,20 +3,50 @@
 {% block title %}Annonce{% endblock %}
 
 {% block body %}
-<div class="w-75 mx-auto">
-    <div class="row">
-        <div class="col-md-12">
-            <p>Catégorie parent :</p>
-            {% for categorie in categories %}
-                {{ categorie.parent }}
-            {% endfor %}   
-            <p>Sous-catégorie :</p>
-            {% for categorie in categories %}
-                {{ categorie.name }}
-            {% endfor %}
+<div class="container" style="margin-bottom: 10px;">
+        {{ form_start(form) }}
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.title) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.user) }}
+            </div>
+            <div class="col" style="text-align: center; margin-left: -20px; margin-top: 26px">
+                <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Rechercher"> <i class="fas fa-search"></i></button>
+                <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Effacer"  onclick="myFunction()"><i class="fas fa-eraser"></i></button>
+            </div>
         </div>
-        <div class=""></div>
-        <div class=""></div>
+        {{ form_end(form) }}
     </div>
-</div>
+
+    {% if annonces %}
+    <div class="row">
+        {% for console in annonces %}
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                {% if console.fileName %}
+                    <img class="card-img-top" src="{{ console.fileName }}" alt="Card image cap">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ console.title }}</h5>
+                    <p class="card-text">{{console.content |striptags|slice(0, 100)}}</p>
+                    <p class="card-text">Le : {{console.createdAt |date('d-m-Y')}}</p>
+                    {% if app.user %}
+                        <a href="{{ path('user_annonce_read', {slug: console.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% else %}
+                        <a href="{{ path('annonce_read', {slug: console.slug})}}" class="btn btn-primary">Savoir plus</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div>
+
+    {% else %}
+
+        <h1>Pas d'annonce.....</h1>
+
+    {% endif %}
+
 {% endblock %}
