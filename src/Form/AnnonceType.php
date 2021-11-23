@@ -27,7 +27,7 @@ class AnnonceType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('upload_file', FileType::class, [
-                'label' => false,
+                'label' => 'Image illustrer',
                 'mapped' => false, // Tell that there is no Entity to link
                 'required' => true,
                 'constraints' => [

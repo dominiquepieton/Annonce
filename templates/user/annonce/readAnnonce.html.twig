@@ -9,19 +9,27 @@
     <h1 class="text-center mt-3">{{annonce.title}}</h1>
     <hr class="w-50 mx-auto mt-3 bg-danger">
     
-    <div class="card">
+    <div class="card w-75 mx-auto mt-5">
     {% if annonce.fileName %}
         <div class="card-header">
-            <img class="card-img-top" src="{{ asset('uploads/' ~ annonce.fileName) }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ annonce.fileName }}" alt="Card image cap">
         </div>
     {% endif %}    
         <div class="card-body">
             <h5 class="card-title">{{ annonce.title }}</h5>
-            <p><strong>Catègorie : </strong>{{ annonce.categorie }}  <strong>Vendu par : </strong> {{ annonce.user.name }} {{ annonce.user.firstname }}</p>
+            <p><strong>Prix :</strong></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="justify-content-around"><strong>Catègorie : </strong>{{ annonce.categorie }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Vendu par : </strong> {{ annonce.user.name }} {{ annonce.user.firstname }}</p>
+                </div>
+            </div>
             <hr class="w-25 bg-danger mx-auto">
             <p><strong>Description : </strong>
             <p class="card-text">{{ annonce.content | raw }}</p>
-            <a href="#" class="btn btn-primary">Contacter le vendeur</a>
+            <a href="{{ path('user_annonce_mail', {id: annonce.id}) }}" class="btn btn-primary">Contacter le vendeur</a>
         </div>
     </div>    
 </div>
