@@ -19,6 +19,19 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
+    /**
+    * @return Annonce[] Returns an array of Annonce objects
+    */
+    public function lastFiveCategorie()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Categorie[] Returns an array of Categorie objects
     //  */

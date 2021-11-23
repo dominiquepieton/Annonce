@@ -34,10 +34,10 @@ class AdminController extends AbstractController
     public function index(UserRepository $userRepo, AnnonceRepository $annonceRepo, CategorieRepository $categorieRepo, ContactRepository $contactRepo): Response
     {
         
-        $users = $userRepo->findAll();
-        $annonces = $annonceRepo->findAll();
-        $categories = $categorieRepo->findAll();
-        $contacts = $contactRepo->findAll();
+        $users = $userRepo->lastFiveUser();
+        $annonces = $annonceRepo->fiveAnnonce();
+        $categories = $categorieRepo->lastFiveCategorie();
+        $contacts = $contactRepo->lastFiveContact();
          
         return $this->render('admin/dashboard.html.twig', [
             'users' => $users,

@@ -101,4 +101,17 @@ class AnnonceRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+    * @return Annonce[] Returns an array of Annonce objects
+    */
+    public function fiveAnnonce()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

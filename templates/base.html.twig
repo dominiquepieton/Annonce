@@ -39,6 +39,11 @@
                         <div class="dropdown-menu mt-2" aria-labelledby="navbarDropdown">
                         <a class="nav-link" href="{{ path('user_profile') }}">Mon profile</a>
                         <a class="nav-link" href="{{ path('user_annonce_create') }}">Créer une Annonce</a>
+                        {% for role in app.user.roles %}
+                            {% if role == 'ROLE_ADMIN' %}
+                                <a class="nav-link" href="{{ path('admin_dashboard') }}">Dashboard</a>
+                            {% endif %}
+                        {% endfor %}     
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
                         </div>
