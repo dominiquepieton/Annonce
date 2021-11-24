@@ -11,7 +11,7 @@ class CategorieFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $categories = [
-            1 => ['name' => 'Immobiliier'],
+            1 => ['name' => 'Immobilier'],
             2 => ['name' => 'Console'],
             3 => ['name' => 'Ordinateur'],
             4 => ['name' => 'Vehicule'],

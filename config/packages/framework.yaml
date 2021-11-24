@@ -17,6 +17,10 @@ framework:
     php_errors:
         log: true
 
+    request:
+        formats:
+            svg: 'image/svg+xml'
+
 when@test:
     framework:
         test: true

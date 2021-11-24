@@ -42,6 +42,7 @@
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ console.title }}</h5>
+                    <p>Prix : {{console.price}} €</p>
                     <p class="card-text">{{console.content |striptags|slice(0, 100)}}</p>
                     <p class="card-text">Le : {{console.createdAt |date('d-m-Y')}}</p>
                     {% if app.user %}
@@ -63,6 +64,7 @@
                  <img class="card-img-top" src="{{ vehicule.fileName }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{ vehicule.title }}</h5>
+                    <p>Prix : {{vehicule.price}} €</p>
                     <p class="card-text">{{vehicule.content |striptags|slice(0, 100)}}</p>
                     <p class="card-text">Le : {{vehicule.createdAt |date('d-m-Y')}}</p>
                     {% if app.user %}
@@ -84,6 +86,7 @@
                  <img class="card-img-top" src="{{ immo.fileName }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{ immo.title }}</h5>
+                    <p>Prix : {{immo.price}} €</p>
                     <p class="card-text">{{immo.content |striptags|slice(0, 100)}}</p>
                     <p class="card-text">Le : {{immo.createdAt |date('d-m-Y')}}</p>
                     {% if app.user %}
@@ -105,6 +108,7 @@
                  <img class="card-img-top" src="{{ outil.fileName }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{ outil.title }}</h5>
+                    <p>Prix : {{outil.price}} €</p>
                     <p class="card-text">{{outil.content |striptags|slice(0, 100)}}</p>
                     <p class="card-text">Le : {{outil.createdAt |date('d-m-Y')}}</p>
                     {% if app.user %}

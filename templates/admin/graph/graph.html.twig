@@ -1,0 +1,9 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block body %}
+    <section class="content">
+        <h2>User :</h2>
+        {% include 'admin/graph/typegraph/histogram.svg.twig' with { data: histogram } %}
+
+    </section>
+{% endblock %}

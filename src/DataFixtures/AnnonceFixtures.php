@@ -28,6 +28,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             $annonce->setContent($faker->realText(450));
             $annonce->setActive($faker->numberBetween(0, 1));
             $annonce->setFilename($faker->imageUrl($width = 300, $height = 150));
+            $annonce->setPrice($faker->numberBetween(10, 300000));
 
             // upload et gernere les images
             //for($image = 1; $image < 4; $image++){
@@ -37,8 +38,6 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 
                 //$annonce->addImage($imageAnnonce).
             //}
-
-
             $manager->persist($annonce);
         }
 

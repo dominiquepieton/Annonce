@@ -19,6 +19,19 @@ class MailRepository extends ServiceEntityRepository
         parent::__construct($registry, Mail::class);
     }
 
+    /**
+    * @return Annonce[] Returns an array of Annonce objects
+    */
+    public function lastFiveMail()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Mail[] Returns an array of Mail objects
     //  */

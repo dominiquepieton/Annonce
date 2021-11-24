@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Repository\AnnonceRepository;
 use App\Repository\ContactRepository;
 use App\Repository\CategorieRepository;
+use App\Repository\MailRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,19 +32,28 @@ class AdminController extends AbstractController
      * permet afficher les données du site de façon globale
      * @Route("/dashboard", name="dashboard")
      */
-    public function index(UserRepository $userRepo, AnnonceRepository $annonceRepo, CategorieRepository $categorieRepo, ContactRepository $contactRepo): Response
+    public function index(UserRepository $userRepo, AnnonceRepository $annonceRepo, CategorieRepository $categorieRepo, ContactRepository $contactRepo, MailRepository $mailRepository): Response
     {
         
         $users = $userRepo->lastFiveUser();
         $annonces = $annonceRepo->fiveAnnonce();
         $categories = $categorieRepo->lastFiveCategorie();
         $contacts = $contactRepo->lastFiveContact();
-         
+        $mails = $mailRepository->lastFiveMail();
+
+        // Donnée du graphe
+        $userData = count($userRepo->findBy(['isVerified' => 1]));
+        $userNotValider = count($userRepo->findBy(['isVerified' => 0]));
+
+
         return $this->render('admin/dashboard.html.twig', [
             'users' => $users,
             'annonces' => $annonces,
             'categories' => $categories,
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'mails' => $mails,
+            'userData' => $userData,
+            'userNotValider' => $userNotValider
         ]);
     }
 
@@ -140,11 +150,33 @@ class AdminController extends AbstractController
      * @param UserRepository $userRepo
      * @return void
      */
-    public function indexUser(UserRepository $userRepo)
+    public function allUser(UserRepository $userRepo)
     {
+        
         $users = $userRepo->findAll();
 
         return $this->render('admin/user/indexUser.html.twig', ['users' => $users]);
+    }
+
+    /**
+     * Création d'un graph pour le user
+     * @Route("/users/graphic", name="userGraph")
+     * @return void
+     */
+    public function graphUser(UserRepository $userRepo)
+    {
+        // Donnée du graphe
+        $userData = count($userRepo->findBy(['isVerified' => 1]));
+        $userNotValider = count($userRepo->findBy(['isVerified' => 0]));
+
+        $user = [
+            'Active' => [$userData],
+            'Not active' => [$userNotValider]
+        ];
+
+        return $this->render('admin/graph/userGraph.html.twig', [
+            'user' => $user
+        ]);
     }
 
 
