@@ -43,8 +43,10 @@ class AdminController extends AbstractController
         $mails = $mailRepository->lastFiveMail();
 
         // Donnée du graphe
-        $userData = count($userRepo->findBy(['isVerified' => 1]));
-        $userNotValider = count($userRepo->findBy(['isVerified' => 0]));
+        $user = [
+            'active' => count($userRepo->findBy(['isVerified' => 1])),
+            'non-active' => count($userRepo->findBy(['isVerified' => 0]))
+        ];
 
 
         return $this->render('admin/dashboard.html.twig', [
@@ -53,8 +55,9 @@ class AdminController extends AbstractController
             'categories' => $categories,
             'contacts' => $contacts,
             'mails' => $mails,
-            'userData' => $userData,
-            'userNotValider' => $userNotValider
+            //'userData' => $userData,
+            //'userNotValider' => $userNotValider
+            'histogram' => $user,
         ]);
     }
 
