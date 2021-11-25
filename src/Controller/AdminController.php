@@ -14,6 +14,7 @@ use App\Repository\AnnonceRepository;
 use App\Repository\ContactRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\MailRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -145,16 +146,20 @@ class AdminController extends AbstractController
 
     /**
      * Permet d'afficher tous les users et de gerer la gestion des users
-     * @Route("/users", name="users")
+     * @Route("/users/", name="users")
      * 
      * @param UserRepository $userRepo
      * @return void
      */
-    public function allUser(UserRepository $userRepo)
+    public function allUser(UserRepository $userRepo, PaginatorInterface $paginator, Request $request)
     {
-        
-        $users = $userRepo->findAll();
-
+        $data = $userRepo->findAll();
+        // gestion de la pagination
+        $users = $paginator->paginate(
+             $data, // passe la requete contenant les datas
+            $request->query->getInt('page', 1), // numéro de la page en cours
+            10 // nbres de résultats par page
+        );
         return $this->render('admin/user/indexUser.html.twig', ['users' => $users]);
     }
 
