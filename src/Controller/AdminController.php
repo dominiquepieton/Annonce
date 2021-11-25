@@ -66,10 +66,14 @@ class AdminController extends AbstractController
      * @param CategorieRepository $categorieRepo
      * @return void
      */
-    public function allCategorie(CategorieRepository $categorieRepo)
+    public function allCategorie(CategorieRepository $categorieRepo, PaginatorInterface $paginator, Request $request)
     {
-        $categories = $categorieRepo->findAll();
-
+        $datas = $categorieRepo->findAll();
+        $categories = $paginator->paginate(
+            $datas,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('admin/categorie/indexCategorie.html.twig', ['categories' => $categories]);
     }
 
@@ -156,10 +160,11 @@ class AdminController extends AbstractController
         $data = $userRepo->findAll();
         // gestion de la pagination
         $users = $paginator->paginate(
-             $data, // passe la requete contenant les datas
+            $data, // passe la requete contenant les datas
             $request->query->getInt('page', 1), // numéro de la page en cours
             10 // nbres de résultats par page
         );
+
         return $this->render('admin/user/indexUser.html.twig', ['users' => $users]);
     }
 
@@ -192,10 +197,14 @@ class AdminController extends AbstractController
      * @param AnnonceRepository $annonceRepo
      * @return void
      */
-    public function allAnnonce(AnnonceRepository $annonceRepo)
+    public function allAnnonce(AnnonceRepository $annonceRepo, PaginatorInterface $paginator, Request $request)
     {
-        $annonces = $annonceRepo->findAll();
-
+        $datas = $annonceRepo->findAll();
+        $annonces = $paginator->paginate(
+            $datas,
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('admin/annonce/indexAnnonce.html.twig', ['annonces' => $annonces]);
     }
 
